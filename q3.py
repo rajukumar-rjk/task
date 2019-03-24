@@ -24,15 +24,15 @@ df['date_of_booking'] = pd.to_datetime(df['date_of_booking'])
 df['booking_period'] = df.date_of_booking.apply(lambda x: x.strftime('%Y-%m'))
 
 
-# for 60 days ()
+# for 60 days (I think something going wrong here )
 # df['booking_period'] = df.date_of_booking.apply(lambda x: str(x.year)+'-'+str((x.month -1)// 2 * 2 + 1 ))
 
-# 90-Day repeat rate
-# df['booking_period'] = df.date_of_booking.apply(lambda x: str(x.year)+'q'+str((x.month-1)// 3 * 3 + 1 ))
+# 90-Day repeat rate (I think something going wrong here )
+#df['booking_period'] = df.date_of_booking.apply(lambda x: str(x.year)+'q'+str((x.month-1)// 3 * 3 + 1 ))
 
 
 # 120 Day repeat rate
-df['booking_period'] = df['date_of_booking'].apply(lambda x: str(x.year)+'q'+str(x.quarter))
+#df['booking_period'] = df['date_of_booking'].apply(lambda x: str(x.year)+'q'+str(x.quarter))
 
 
 #creating a column cohort_group group based on their first booking
@@ -81,32 +81,9 @@ user_retention.head(10)
 sns.set(style='white')
 
 plt.figure(figsize=(12, 8))
-plt.title('Cohorts: User Retention')
-plt.xlabel('User month no')
-plt.ylabel('User first booking')
-sns.heatmap(user_retention.T, mask=user_retention.T.isnull(), annot=True, fmt='.0%');
 
-# 4.What is the best repeat rate metric among the above to follow and why?
-"""
+sns.heatmap(user_retention.T, mask=user_retention.T.isnull(), annot=True, fmt='.0%')
+plt.title('User repeat rate (90 days metrics)')
+plt.xlabel('No of months since user first booking' )
+plt.ylabel('% User since first booking(month)')
 
-30-days repeat rate chart show 4-5% user retention in last 6 months. which I believe is very low at 
-business point of view. Especially when our almost 35% user came in first 3 month (q1 chart shows) 
-i.e It is not easy to get new user.
-
-So even though 30-days matric not showing good but I still believe we should fallow 30-days metric. 
-
-
-"""
-
-# 5.Define churn period for this business and measure monthly churn rate
-"""
-Churn is one minus the retention rate as a percentage (month 1 retantion rate - month 2 retantion rate). 
-I have already plotted 30-days retention chart for Q3 and that can help to see the churn.
-
-Retention chart shows overall we have churn of 93 % from user's 1st month to their 2nd month and 
-then it goes up/down by 1-2% till the end. 
-
-I have notice that chrun goes donw or remain the same in user's 3rd month from their first booking then every 2nd month.
-
-
-"""
